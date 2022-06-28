@@ -1,0 +1,6 @@
+[book]
+authors = ["yunlang"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Tools for CSer"
