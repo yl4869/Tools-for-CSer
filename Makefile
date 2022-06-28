@@ -1,4 +1,11 @@
 .PHONY: deploy
+.PHONY: clean
+.PHONY: build
+.PHONY: commit
+
+clean: 
+	rm -rf book
+
 deploy: book
 	@echo "====> deploying to github"
 	rm -rf /tmp/book
@@ -17,3 +24,4 @@ commit:
 	git add src Makefile README.md
 	git commit -m "commit on $(shell date) by ${USER}" && \
 	git push origin main
+
