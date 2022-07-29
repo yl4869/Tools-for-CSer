@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_0.html"><strong aria-hidden="true">1.</strong> Chapter_0</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -135,10 +135,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chapter-1"><a class="header" href="#chapter-1">Chapter 1</a></h1>
-<p>test
-2</p>
-<p>3</p>
+                        <h1 id="开设此课程的动机"><a class="header" href="#开设此课程的动机">开设此课程的动机</a></h1>
+<p>正如The missing semester of your CS education中所说, 传统的计算机科学课程往往重视理论教育, 却忽视了
+各种工具的使用. 尽管一些课程提供了课程设计或实验等方式的实践练习, 但观察国内(其实就是我们学校)的课
+程, 这些课程往往只重视问题的目的性, 相关工具甚至可以追溯到父辈的计算机教育方式, 对现代工具的高效使用
+是严重缺乏的. 针对于此, 我们希望能有一门简单的课程让学生可以学会使用那些高效的工具, 并贯穿他的计算机
+学习(工作)生涯.</p>
+<p>The missing semester of your CS education 是一门很好的计算机工具类课程教学, 但对于国内而言他有些“不
+接地气”, 我们相信你可以通过他学会相关的工具使用, 但我们更希望能有更贴合的教学方案帮助到大家, 因此选
+择创作这门课程. </p>
+<p>针对课程, 我们希望有完善的讲义能够让你只经过阅读就学习到完全内容, 同样我们也考虑录制视频进行讲解作为
+讲义的部分补充. </p>
 
                     </main>
 
@@ -154,6 +161,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
