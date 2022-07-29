@@ -8,8 +8,6 @@ clean:
 
 deploy: book
 	@echo "====> deploying to github"
-	rm -rf /tmp/book
-	git worktree add -f /tmp/book gh-pages
 	rm -rf /tmp/book/*
 	cp -rp book/* /tmp/book/
 	cd /tmp/book && \
