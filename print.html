@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_0.html"><strong aria-hidden="true">1.</strong> Chapter_0</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_0.html"><strong aria-hidden="true">1.</strong> 0</a></li><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">2.</strong> 准备工作</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -146,6 +146,37 @@
 择创作这门课程. </p>
 <p>针对课程, 我们希望有完善的讲义能够让你只经过阅读就学习到完全内容, 同样我们也考虑录制视频进行讲解作为
 讲义的部分补充. </p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="准备工作"><a class="header" href="#准备工作">准备工作</a></h1>
+<h2 id="准备一个unix-like系统环境"><a class="header" href="#准备一个unix-like系统环境">准备一个Unix-like系统环境</a></h2>
+<p>相对于Windows系统, 学术界围绕Unix-like系统的教材多, 质量好. 同时大公司的服务器基本是以Linux内核为基
+础构建, 课程所提供的工具也都为命令行工具, 而大多数Unix-like系统安装命令行工具都很简单, 方便. 不需要
+繁琐的配置本地环境过程. 因此我们建议你准备一个Unix-like系统环境, 以下是我们推荐的几种方案. </p>
+<h3 id="linux虚拟机"><a class="header" href="#linux虚拟机">Linux虚拟机</a></h3>
+<p>Linux作为目前最常见的Unix-like系统之一, 你可以在网上查找到很多如何安装一款Linux发行版的教程, 其中一
+安装方式就是使用虚拟机, 利用Vmware等软件, 你可以直接在虚拟机中使用Linux系统而不用担心误操作带来的风
+险, 而虚拟机也可以满足课程所需要掌握的内容, 当然, 由于虚拟化的原因, 你需要给你的虚拟机分配一部分内存
+和磁盘空间, 这对于你的系统性能需要一定的要求. </p>
+<h3 id="linux双系统"><a class="header" href="#linux双系统">Linux双系统</a></h3>
+<p>相对于虚拟机, 双系统对于系统性能的要求降低很多, 现在的常见Linux发行版也提供了图形化安装方式, 安装起
+来也很简便, 你依然可以在需要使用Windows时选择进入Windows操作系统使用, 但你无法像虚拟机一样同时使用
+Windows和Linux了, 同时, 由于Linux本身是作为实机使用, 你需要谨慎操作, 避免误操作带来的灾难(如不小心格
+式化系统)等. </p>
+<h3 id="wsl适用于linux的windows子系统"><a class="header" href="#wsl适用于linux的windows子系统">WSL(适用于Linux的Windows子系统)</a></h3>
+<p>适用于 Linux 的 Windows 子系统 (WSL) 可让开发人员直接在 Windows 上按原样运行 GNU/Linux 环境（包括大
+多数命令行工具、实用工具和应用程序），且不会产生传统虚拟机或双启动设置开销。 
+这是一种我们十分推荐的方案, 现在你可以在Windows下直接使用微软为你提供的Linux虚拟机服务了, 不过需要注
+意WSL2无法与虚拟机共同使用, 如果你需要使用Vmware的同时还想体验WSL, 你可以选择WSL1, 如果你并没有使用
+虚拟机的需求, 那么WSL2是一个好的选择. 他比传统的Vmware更快, 但你对Linux操作系统的控制权限也会减少一
+部分. 当然, 应对我们的课程还是绰绰有余了.</p>
+<p>关于WSL的更多信息, 可以查看<a href="https://docs.microsoft.com/zh-cn/windows/wsl/">官网</a> .</p>
+<h3 id="云服务器"><a class="header" href="#云服务器">云服务器</a></h3>
+<p>Linux 是一个可以实现多用户登录的操作系统, 因此组一台云服务器一起用(当然也可以自己用)也是很方便的, 课
+程中所介绍的也都是终端操作, 图形化界面并不必要, 因此使用云服务器也是一个选择, 目前国内各种云服务平台
+也对学生有一定优惠, 不过租用云服务器也确实是一笔开销. </p>
+<h3 id="macos"><a class="header" href="#macos">macOS</a></h3>
+<p>如果你是苹果电脑的使用者, macOS本身也是一种unix-like系统, Linux下的终端操作很大一部分都可以直接使用
+macOS解决, 你也会发现提供给Linux的命令行工具多数也都会提供macOS的安装. 在这种情况下, 请直接使用macOS
+的终端吧. </p>
 
                     </main>
 
@@ -161,22 +192,6 @@
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
