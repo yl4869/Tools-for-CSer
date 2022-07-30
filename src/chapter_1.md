@@ -25,7 +25,7 @@ Windows和Linux了, 同时, 由于Linux本身是作为实机使用, 你需要谨
 虚拟机的需求, 那么WSL2是一个好的选择. 他比传统的Vmware更快, 但你对Linux操作系统的控制权限也会减少一
 部分. 当然, 应对我们的课程还是绰绰有余了.   
 
-关于WSL的更多信息, 可以查看[官网](https://docs.microsoft.com/zh-cn/windows/wsl/) .
+关于WSL的更多信息, 可以查看官网.
 
 ### 云服务器
 Linux 是一个可以实现多用户登录的操作系统, 因此组一台云服务器一起用(当然也可以自己用)也是很方便的, 课
@@ -36,3 +36,10 @@ Linux 是一个可以实现多用户登录的操作系统, 因此组一台云服
 如果你是苹果电脑的使用者, macOS本身也是一种unix-like系统, Linux下的终端操作很大一部分都可以直接使用
 macOS解决, 你也会发现提供给Linux的命令行工具多数也都会提供macOS的安装. 在这种情况下, 请直接使用macOS
 的终端吧. 
+
+## 参考资料
+- [WSL文档](https://docs.microsoft.com/zh-cn/windows/wsl/) 
+- [Linux发行版(Ubuntu) 清华镜像站](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/) 推荐维护中
+的长期发行版
+- [计算机教育中缺失的一课](https://missing-semester-cn.github.io/) 
+
