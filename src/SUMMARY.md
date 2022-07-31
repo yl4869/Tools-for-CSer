@@ -5,7 +5,7 @@
 - [Shell](./chapter_2.md)
 - [正则表达式](./chapter_3.md)
 - [Shell Scripts](./chapter_4.md) 
-- [编辑器(Neovim)](./chapter_5.md) 
+- [编辑器](./chapter_5.md) 
 - [版本控制(Git)](./chapter_6.md) 
 - [元编程](./chapter_7.md) 
 - [调试与性能分析(C++)](./chapter_8.md) 
@@ -13,4 +13,3 @@
 - [Docker](./chapter_10.md) 
 - [持续集成&部署](./chapter_11.md)
 - [Markdown](./chapter_12.md)
-- [Vscode](./chapter_13.md)
