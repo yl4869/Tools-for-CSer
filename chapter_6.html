@@ -140,8 +140,7 @@
 <img src="image/1.png" alt="1" /> 
 另一件悲伤的事情，你很可能忘记了都改动了什么。</p>
 <p>现在你要和朋友合作这个项目，为了让你的改动能在他的电脑上运行，他的改动能在你的电脑上运行。你需要进行项目的协同了，你能想到的几个办法可能是U盘又或者是QQ文件。但毫无疑问，无论哪种，你都需要将他做的部分放入你现在的项目里， 还要祈祷你们改动的文件没有交叉。当然，你们也会遭遇上面的麻烦。</p>
-<p>利用版本控制工具可以帮助我们管理代码的修改历史；不仅如此，它还可以让协作编码
-变得更方便。现代的版本协作系统可以回答以下的问题：</p>
+<p>利用版本控制工具可以帮助我们管理代码的修改历史；不仅如此，它还可以让协作编码 变得更方便。现代的版本协作系统可以回答以下的问题：</p>
 <ul>
 <li>当前模块是谁编写的？</li>
 <li>这个文件的这一行是什么时候被编辑的？是谁作出的修改？修改原因是什么呢？</li>
@@ -157,6 +156,75 @@
 <h2 id="安装git"><a class="header" href="#安装git">安装Git</a></h2>
 <p>你可以从<a href="https://git-scm.com/download">官网下载页</a>下载Git的最新版本，我们将针对命令行工具进行讲解，掌握了命令行，GUI下的你也可以很快上手。</p>
 <p>我们将从工作中讲述Git的常见操作。</p>
+<h2 id="git操作"><a class="header" href="#git操作">Git操作</a></h2>
+<h3 id="git-工作区暂存区和版本库"><a class="header" href="#git-工作区暂存区和版本库">Git 工作区、暂存区和版本库</a></h3>
+<p>我们首先要理解下Git工作区，暂存区和版本库的概念</p>
+<ul>
+<li>工作区：你在电脑里能看到的目录，即你直接操作的项目环境</li>
+<li>暂存区：暂时存放当前的提交版本，但未真正保存到版本库记录中</li>
+<li>版本库：真正记录了项目开发中的版本库数据</li>
+</ul>
+<p><img src="image/2.png" alt="2" /> </p>
+<blockquote>
+<p>为什么要有暂存区？
+通过暂存区的临时提交，可以有效保证最终提交时版本历史记录的完整性，确保commit的粒度，暂存区可以临时存储尚未完成的“半成品”代码。</p>
+</blockquote>
+<h3 id="新建仓库"><a class="header" href="#新建仓库">新建仓库</a></h3>
+<p>为了使用Git，我们需要初始化一个Git仓库，在初始化Git仓库后，会在当前目录下生成一个 .git 目录，该目录会包含版本库的所有信息，工作区保持不变。</p>
+<p>在当前目录初始化Git仓库</p>
+<pre><code class="language-bash">git init
+</code></pre>
+<p><img src="image/3.png" alt="3" /><br />
+可以看到我们的目录下多了一个.git目录（默认隐藏）</p>
+<p>下面我们需要设置提交代码时的用户信息</p>
+<pre><code class="language-bash">git config --list #查看当前已经设置的内容
+git config --global user.name &quot;your name&quot;
+git config --global user.email &quot;your email&quot;
+</code></pre>
+<blockquote>
+<p><code>--global</code>参数会修改全部仓库下的信息，如果你只想修改当前仓库，可以去掉该参数</p>
+</blockquote>
+<h3 id="将修改保存到暂存区"><a class="header" href="#将修改保存到暂存区">将修改保存到暂存区</a></h3>
+<p>添加修改并将修改保存到暂存区，可以使用<code>git add</code>命令，例如我们新建一个test文件，并将文件加入到暂存区。</p>
+<pre><code class="language-bash">touch test 
+touch t         #新建文件
+#git add .      #将当前目录下所有内容添加到暂存区
+git add test    #将test文件添加到暂存区
+</code></pre>
+<p>利用<code>git status</code>，我们可以查看当前暂存区状态。</p>
+<p><img src="image/4.png" alt="4" /> </p>
+<p>在未添加任何文件时，我们可以看到没有文件被跟踪，但当我们将test放入暂存区后，可以看到test已经被跟踪，但t仍然没有被跟踪。因此暂存区可以很方便的帮我们存储以单个文件为粒度的文件提交。</p>
+<p>目前我们的test文件是空的，下面我们修改下test文件并查看<code>git status</code>输出，观察有什么变化。</p>
+<pre><code class="language-bash">echo &quot;一次修改&quot; &gt;! test
+git status
+git diff
+</code></pre>
+<p><img src="image/5.png" alt="5" /> </p>
+<p>通过<code>git status</code>，当工作区与暂存区不同时，会提示我们发生了修改，而使用<code>git diff</code>能够直接反应变化情况（针对已跟踪文件）。</p>
+<blockquote>
+<p><code>git diff</code>指令不仅能用在工作区和暂存区的比较中，事实上很多Git命令在不同场合都有不同效果。</p>
+</blockquote>
+<h3 id="撤销修改"><a class="header" href="#撤销修改">撤销修改</a></h3>
+<p>如果你认为工作区的修改出错，想要回到暂存区，可以使用<code>git checkout</code>命令完成撤销。</p>
+<pre><code class="language-bash">git checkout test 
+git status
+cat test
+</code></pre>
+<p>也可以利用<code>git rm --cached &lt;file&gt;</code>撤销添加到暂存区的文件。</p>
+<pre><code class="language-bash">git rm --cached test    #可以看作git add的逆过程
+git status
+</code></pre>
+<h3 id="将暂存区文件提交到本地仓库"><a class="header" href="#将暂存区文件提交到本地仓库">将暂存区文件提交到本地仓库</a></h3>
+<p>使用<code>git commit </code>命令可将暂存区文件提交到本地仓库，该命令会调用设置的编辑器以要求你添加提交信息，一种更方便的使用方式是<code>git commit -m &quot;your message&quot;</code>，你可以直接键入信息而非调用编辑器。</p>
+<blockquote>
+<p><code>git commit</code>默认使用vim作为编辑器，你也可以自己进行修改，比如我习惯使用neovim，我会通过<code>git config --global core.editor &quot;nvim&quot;</code>进行修改。</p>
+</blockquote>
+<p>进行提交</p>
+<pre><code>git commit -m &quot;first commit&quot;
+</code></pre>
+<p>为了体现提交信息，我又将t文件加入到暂存区中进行了第二次提交，这样使用<code>git log</code>可以查看版本库的提交信息。
+<img src="image/6.png" alt="6" /> 
+这样什么人什么时间进行了提交就一目了然了，你也可以通过每次提交的哈希值回退到任何一个提交版本。</p>
 
                     </main>
 
