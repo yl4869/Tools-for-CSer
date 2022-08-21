@@ -184,7 +184,63 @@ macOS解决, 你也会发现提供给Linux的命令行工具多数也都会提�
 的长期发行版</li>
 <li><a href="https://missing-semester-cn.github.io/">计算机教育中缺失的一课</a> </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="编辑器"><a class="header" href="#编辑器">编辑器</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="shell"><a class="header" href="#shell">Shell</a></h1>
+<h2 id="什么是shell"><a class="header" href="#什么是shell">什么是Shell</a></h2>
+<p>在图形界面出现之前, 与 Unix 系统进行交互的唯一方式是使用 Shell 提供的文本命令行界面(Command Line Interface, CLI), CLI 只允许文本输入, 也只能进行文本输出.</p>
+<p>如今图像用户界面(GUI)已经被大规模使用, 用户可以更方便的与计算机进行交互. 但 Shell 在现今也有很大作用: 利用 Shell 脚本(Shell Scripts)进行自动化、利用高效率的命令行工具快速处理任务、通过 SSH 远程连接服务器进行操作(这个时候可不会用 GUI 让你用)等. 相对于 GUI, Shell 往往可以占用更少的资源，完成相同的任务.</p>
+<blockquote>
+<p>Unix 工具是由 Unix 下的开发人员参照标准进行设计的(现今流行的标准之一 POSIX ), 遵循标准的好处是你基本可以在任何 Unix-like 系统下使用相同的工具而没有使用成本. 同时小而精的软件设计哲学让每个工具只负责一件事, 你可以通过组合各种工具完成整个任务.</p>
+</blockquote>
+<blockquote>
+<p>你也可以设计自己的命令行工具或设计脚本来完成任务, 想一想, 只是完成一个小任务的话, 又何必花费大力气做 GUI 界面呢?</p>
+</blockquote>
+<h2 id="使用shell"><a class="header" href="#使用shell">使用Shell</a></h2>
+<p>如今的系统大部分都提供了 GUI, 不过他们也都提供了终端模拟来进行 Shell 操作. 你可以参考你的系统找到如何启动终端. 
+&gt;请不要使用 cmd 或是 Powershell 这两个异端. </p>
+<p>常见的 Shell 教程在互联网上可以快速检索到, 你可以很容易通过他们掌握Shell的一些基本用法, 因此我们在这里不会过多介绍. 接下来我们将会介绍几个能够提升你Shell使用的功能, 以及一些实用的命令行工具.</p>
+<h3 id="帮助文档"><a class="header" href="#帮助文档">帮助文档</a></h3>
+<p>这里我们介绍三种你能掌握一种命令行工具用法的方式</p>
+<ul>
+<li>
+<p>man<br />
+man 命令是官方的权威的手册文档, 是英文 manual 的缩写, 你可以通过 man [参数] 对象的方式查找对象的使用说明文档, 但他一般是十分详细的, 你可能需要仔细阅读才能掌握.</p>
+</li>
+<li>
+<p>-h/--help<br />
+命令行工具通常也会内置帮助文档, 一般通过 <code>命令 -h/--help</code> 的方式进行查询, 相比man命令, 他要更简洁和难以掌握.</p>
+</li>
+<li>
+<p>tldr<br />
+tldr(too long don't read) 简化了繁琐的 man 指令文档, 通过简短明确的示例让你能够快速上手命令行工具, 相比 man 要更亲民一些.</p>
+</li>
+</ul>
+<blockquote>
+<p>tldr本身也是命令行工具, 第一次使用时需要从github上下载数据库, 因此可能会慢一些.</p>
+</blockquote>
+<h3 id="管道"><a class="header" href="#管道">管道</a></h3>
+<p>用 <strong>|</strong> 建立管道, 如 <code>program1 | program2</code> 可以将 program1 的输出变成 program2 的标准输入, 利用管道, 可以将多个命令行程序放在一起使用, 如可以通过多个 <em>grep</em> 逐渐过滤检索, 相对于写入到临时文件, 管道的速度要更快.</p>
+<blockquote>
+<p>还记得说过的Unix工具只负责一件事吗, 通过管道, 你可以让这些工具结合起来, 共同完成一项任务.</p>
+</blockquote>
+<h3 id="标准io重定向"><a class="header" href="#标准io重定向">标准I/O重定向</a></h3>
+<p>标准输入输出是Unix中的重要概念之一, 所有的Unix程序都从标准输出读入, 并将数据写入到标准输出中, 一般的标准输入输出目的都是终端, 你可以通过 Shell 语法对标准输入输出进行重定向, 一般是从定向到文件.</p>
+<p>用 <strong>&lt;</strong> 改变标准输出, 使用 <code>program &lt; file</code>可以将 program 程序的输入重定向到file文件中.<br />
+用 <strong>&gt;</strong> 改变标准输出, 使用 <code>program &gt; file</code>可以将 program 程序的输出重定向到file文件中.</p>
+<p><code>program &lt; file1 &gt; file2</code> program 会从 file1 中读取文件, 并将处理好的输出写入到file2中. </p>
+<blockquote>
+<p>I/O重定向也可以搭配管道一起使用.</p>
+</blockquote>
+<h3 id="devnull"><a class="header" href="#devnull">/dev/null</a></h3>
+<p>/dev/null 是一个垃圾桶, 任何传输到此文件的数据都会被系统丢弃掉, 并返回一个成功完成写入数据的返回值. 他在你想丢弃文件, 或你只想知道命令的退出状态时非常有用.</p>
+<blockquote>
+<p>关于退出状态, 这里以 <em>grep</em> 为例, 他在匹配到时返回相应行, 但在匹配失败时会返回1, 通过将 <em>grep</em> 的输出重定向到 /dev/null 你可以只关系是否匹配而不关系匹配到的相应行.</p>
+</blockquote>
+<h2 id="reference"><a class="header" href="#reference">reference:</a></h2>
+<p>鸟哥的Linux私房菜<br />
+Linux命令行和shell脚本编程宝典[Richard Blum]<br />
+The missing semester of your cs education<br />
+Shell 脚本学习指南[Arnold Robbins &amp; Nelson H.F. Beebe]</p>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="编辑器"><a class="header" href="#编辑器">编辑器</a></h1>
 <h2 id="vim"><a class="header" href="#vim">Vim</a></h2>
 <h3 id="neovim"><a class="header" href="#neovim">Neovim</a></h3>
 <h2 id="vscode"><a class="header" href="#vscode">Vscode</a></h2>
@@ -297,6 +353,22 @@ git status
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
