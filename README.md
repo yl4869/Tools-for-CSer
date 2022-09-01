@@ -19,3 +19,6 @@ gh-pages: 构建后的网站源码，使用 github pages 进行部署
 
 ```make build``` ```make deploy```  将生成网站提交到 gh-pages 分支
 > 注意，deploy 前必须 build ，以确保网站源码被生成
+
+## 贡献
+可以在 issue 或直接 qq 联系（如果可以找到我），来承担感兴趣的章节。
