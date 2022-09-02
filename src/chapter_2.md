@@ -49,4 +49,3 @@ tldr(too long don't read) 简化了繁琐的 man 指令文档, 通过简短明�
 Linux命令行和shell脚本编程宝典[Richard Blum]    
 The missing semester of your cs education   
 Shell 脚本学习指南[Arnold Robbins & Nelson H.F. Beebe]
-[Linux 命令行与 Shell 脚本教程(WIP)](https://archlinuxstudio.github.io/ShellTutorial/#/)
