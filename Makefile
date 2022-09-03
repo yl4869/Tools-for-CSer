@@ -8,6 +8,7 @@ clean:
 
 deploy: book
 	@echo "====> deploying to github"
+	-mkdir /tmp/book
 	git worktree prune
 	-git worktree add /tmp/book gh-pages
 	rm -rf /tmp/book/*
