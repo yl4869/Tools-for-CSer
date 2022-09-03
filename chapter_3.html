@@ -134,7 +134,49 @@
 
                 <div id="content" class="content">
                     <main>
-                        
+                        <h2 id="引言"><a class="header" href="#引言">引言</a></h2>
+<p>在编写处理字符串的程序或网页时，经常会有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。</p>
+<p>与通配符(如*)类似，正则表达式也是用来进行文本匹配的工具，不过他要更为精确和复杂。学习正则表达式的最好办法就是利用例子学习。</p>
+<h2 id="元字符"><a class="header" href="#元字符">元字符</a></h2>
+<p>现在考虑从英文小说里查找hi，你可以使用正则表达式<code>hi</code>,但这样的代价是你会查找到文本中所有有hi的位置,而不是一个单词。为了查找到一个单词你可以使用<code>\bhi\b</code>,他会帮你匹配单词hi存在的位置。</p>
+<p>\b是正则表达式中元字符(metacharacter),代表单词的分界处，但请注意\b并<strong>不匹配用来分界单词的字符(如空格，标点或者换行符)，他匹配的是一个位置</strong>。</p>
+<blockquote>
+<p>更为精确的说法是：\b匹配一个前一个字符和后一个字符不全是\w的位置。</p>
+</blockquote>
+<p>这样的元字符在正则表达式中有很多，他们帮助构建了正则表达式强大的匹配能力。你不需要全部记住，可以在使用中进行查阅，并在实践中掌握他们。</p>
+<p>如果你要寻找这样的一个字符串：A单词后面跟着一个B单词，AB中间可以有任意字符存在。可以使用<code>\bA\b.*\bB\b</code>。</p>
+<p>这里的<code>.</code>和<code>\*</code>也是两个其他的元字符。<code>.</code>可以匹配除了换行符之外的任何字符，而<code>*</code>比较特殊，他使得前面的内容可以<strong>连续重复使用任意次来匹配字符串</strong>。</p>
+<blockquote>
+<p>如果你学过离散数学或者计算理论，应该对*不会太过陌生(尤其是学过计算理论)，之后你还会看到<code>+</code>元字符，他们的区别和你在离散数学中他们的区别相同。</p>
+</blockquote>
+<h2 id="下面给出常见的元字符和使用他们的一些例子"><a class="header" href="#下面给出常见的元字符和使用他们的一些例子">下面给出常见的元字符，和使用他们的一些例子</a></h2>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">元字符</th><th style="text-align: left">说明</th></tr></thead><tbody>
+<tr><td style="text-align: left">.</td><td style="text-align: left">匹配除换行符以外的任意字符</td></tr>
+<tr><td style="text-align: left">\w</td><td style="text-align: left">匹配字母或数字或下划线或汉字</td></tr>
+<tr><td style="text-align: left">\s</td><td style="text-align: left">匹配任意的空白符</td></tr>
+<tr><td style="text-align: left">\d</td><td style="text-align: left">匹配数字</td></tr>
+<tr><td style="text-align: left">\b</td><td style="text-align: left">匹配单词的开始或结束</td></tr>
+<tr><td style="text-align: left">^</td><td style="text-align: left">匹配字符串的开始</td></tr>
+<tr><td style="text-align: left">$</td><td style="text-align: left">匹配字符串的结束</td></tr>
+</tbody></table>
+</div>
+<blockquote>
+<p>现在我们可以回顾一下\b的精确描述，理解\w的存在。</p>
+</blockquote>
+<h2 id="例子"><a class="header" href="#例子">例子</a></h2>
+<ul>
+<li>\ba\w+\b</li>
+</ul>
+<p>匹配以字母a开头的单词——先是某个单词开始处(\b)，然后是字母 a，然后中间至少有一个字母或者数字(\w+)，最后是单词结束处(\b)。<strong>用到了\w与+的共同使用</strong>,*可以有0，但+至少一个。</p>
+<ul>
+<li>\b\w{6}\b</li>
+</ul>
+<p>匹配刚好六个字符的单词</p>
+<ul>
+<li>^\d{5,12}$</li>
+</ul>
+<p>^ 和 $保证了是整个字符串的匹配，而不是字串，{5，12}代表重复的次数不能少于5次，不能多于12次，否则都不匹配。</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
