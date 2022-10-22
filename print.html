@@ -281,8 +281,8 @@ Shell 脚本学习指南[Arnold Robbins &amp; Nelson H.F. Beebe]<br />
 <a href="https://archlinuxstudio.github.io/ShellTutorial/#/">Linux 命令行与 Shell 脚本教程(WIP)</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="正则表达式"><a class="header" href="#正则表达式">正则表达式</a></h1>
 <h2 id="引言"><a class="header" href="#引言">引言</a></h2>
-<p>在编写处理字符串的程序或网页时，经常会有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。</p>
-<p>与通配符(如*)类似，正则表达式也是用来进行文本匹配的工具，不过他要更为精确和复杂。学习正则表达式的最好办法就是利用例子学习。</p>
+<p>在编写处理字符串的程序或网页时，经常会有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。<br />
+与通配符(如*)类似，正则表达式也是用来进行文本匹配的工具，不过他要更为精确和复杂。学习正则表达式的最好办法就是利用例子学习。</p>
 <h2 id="元字符"><a class="header" href="#元字符">元字符</a></h2>
 <p>现在考虑从英文小说里查找hi，你可以使用正则表达式<code>hi</code>,但这样的代价是你会查找到文本中所有有hi的位置,而不是一个单词。为了查找到一个单词你可以使用<code>\bhi\b</code>,他会帮你匹配单词hi存在的位置。</p>
 <p>\b是正则表达式中元字符(metacharacter),代表单词的分界处，但请注意\b并<strong>不匹配用来分界单词的字符(如空格，标点或者换行符)，他匹配的是一个位置</strong>。</p>
@@ -639,7 +639,75 @@ add_executable(glt ${CSRC})
 <li><code>link_libraries(GL glfw GLEW soil2)</code>: 连接额外库，将库名或者绝对路径放入即可。这里指定了四个 lib。</li>
 <li><code>add_executable(glt ${CSRC})</code>: 设定可执行文件名称为 <code>glt</code>，源文件是 <code>CSRC</code> 变量中的内容对应的文件。</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="持续集成部署"><a class="header" href="#持续集成部署">持续集成&amp;部署</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="docker"><a class="header" href="#docker">Docker</a></h1>
+<h2 id="什么是docker"><a class="header" href="#什么是docker">什么是Docker</a></h2>
+<ul>
+<li>Docker 是一个开放源代码软件，是一个开放平台，用于开发应用、交付（shipping）应用、运行应用。用户可以将打包好的应用保存到一个镜像中，并在任何支持 Docker 的机器上运行。</li>
+<li>Docker 容器与虚拟机类似，但他仅仅将操作系统层虚拟化而非虚拟化硬件，因此容器可以更高效的利用硬件平台。</li>
+<li>通过 Docker，用户可以让他们的应用“一次打包，多地运行”，借助 Docker，我们可以保证部署的应用环境一致，不会由于各种依赖造成问题的出现。</li>
+</ul>
+<blockquote>
+<p>Docker 可以支持环境的分离，比如你仅仅使用某软件而不想让自己的机器内安装乱七八糟的各种依赖，可以使用 Docker。</p>
+</blockquote>
+<blockquote>
+<p>由于 Docker 容器相比虚拟机开销较小，因此你可以在一个硬件平台下运行多个 Docker 容器，而不用过度关心性能问题。</p>
+</blockquote>
+<h2 id="安装-docker"><a class="header" href="#安装-docker">安装 Docker</a></h2>
+<p>针对不同系统的安装，你可以在主页中找到安装方法，由于 Docker 的软件源在国外，你可以选择使用国内源，这里我们推荐清华镜像站。</p>
+<blockquote>
+<p>东北大学镜像站什么时候站起来</p>
+</blockquote>
+<p>在本讲义编写期间，发现国内的 dockerhub 镜像站大多无法使用，相对可用的是阿里云提供的容器镜像服务，有关容器镜像服务的内容，可以进入<code>阿里云-&gt;容器镜像服务-&gt;镜像工具-&gt;镜像加速器</code>进行查询。</p>
+<blockquote>
+<p>dockerhub，是 docker镜像 所使用的镜像源站点。</p>
+</blockquote>
+<p>安装结束，先爽一把吧！</p>
+<pre><code class="language-bash">docker pull hello-world
+docker run hello-worlk
+</code></pre>
+<blockquote>
+<p>你的电脑可能会显示<code>Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</code>，这是 docker 服务还未在进程中启动所导致，现在你可以在搜索引擎中尝试找到解决方案，记得关键字中加入你的具体操作系统。</p>
+</blockquote>
+<h2 id="上手-docker"><a class="header" href="#上手-docker">上手 Docker</a></h2>
+<p>让我们来看执行刚才的两条命令发生了什么：</p>
+<p>首先是<code>docker pull</code>，他会从镜像仓库中拉去相应镜像到本地，而通过<code>docker run</code>则可以创建新的容器（从镜像中）并运行，因此两条指令完成的操作就是<strong>从镜像站拉取镜像并以容器运行</strong></p>
+<h3 id="仓库"><a class="header" href="#仓库">仓库</a></h3>
+<p>仓库中提供了各种各样的镜像，包括一些用户打包的镜像，每一次运行<code>docker pull</code>会先检查本地仓库是否有这个镜像，没有则会去镜像仓库拉取。</p>
+<h3 id="容器与镜像"><a class="header" href="#容器与镜像">容器与镜像</a></h3>
+<p>容器与镜像是在 docker 中最常见的两个概念</p>
+<ul>
+<li>
+<p>镜像是<strong>只读</strong>的文件，是一个应用程序的“打包”，提供了程序所要运行的环境。</p>
+</li>
+<li>
+<p>容器是镜像的实例，由 docker 进行创建并彼此隔离，是一个真正的<strong>运行环境</strong></p>
+</li>
+<li>
+<p>可以通过一个镜像创建出多个容器，容器间彼此隔离，互不影响</p>
+</li>
+</ul>
+<h3 id="导出与导入"><a class="header" href="#导出与导入">导出与导入</a></h3>
+<p>docker 的强大之处在于你可以将通过镜像创建的容器再次打包为镜像（或容器）并分发到其他设备上，这使得你可以实现<strong>一次创建，多次部署</strong>。</p>
+<p>docker 为每个容器（镜像）都提供了一个唯一的 id 号，当你想要使用某个容器（镜像）时，可以通过 id 号确认。</p>
+<pre><code class="language-bash">#列出当前镜像
+docker images
+#列出当前全部容器
+docker container list
+</code></pre>
+<blockquote>
+<p>需要注意当你退出一个容器时，容器并没有直接删除，而是停止，你可以重新进入容器继续使用，也可以通过<code>docker rm 'id'</code>删除某个容器。</p>
+</blockquote>
+<p>导出某个容器有两种方式，<code>docker save</code> 和 <code>docker export</code></p>
+<blockquote>
+<p><code>docker save</code>保存的是镜像（image），而<code>docker export</code>保存的是容器（container）</p>
+</blockquote>
+<p>相应的，导入也有两个方式，<code>docker load</code> 和 <code>docker import</code></p>
+<blockquote>
+<p><code>docker load</code>加载的是镜像，而<code>docker import</code>加载的是容器，但请注意，实际上<code>docker import</code>是<strong>将容器导出为一个新的镜像</strong></p>
+</blockquote>
+<h2 id="参考资料-1"><a class="header" href="#参考资料-1">参考资料</a></h2>
+<p><a href="https://www.runoob.com/docker/docker-tutorial.html">菜鸟教程</a> </p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="持续集成部署"><a class="header" href="#持续集成部署">持续集成&amp;部署</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="markdown"><a class="header" href="#markdown">Markdown</a></h1>
 <p>你的学习和工作生涯中必不可免需要编写文档，同样也有一部分人喜欢记录笔记或博客。当使用纯文本时，往往会觉得功能太少,，缺少层次，难以标注重点。但当使用 Word 或 LaTex ，又困苦于他们的繁琐复杂。</p>
 <p>现在可以试试 Markdown 了。Markdown 是一种轻量化的标记语言，通过在纯文本格式中添加简单的格式化元素来编写文档，并简单转换为多种格式（常见的为HTML）。</p>

@@ -134,7 +134,75 @@
 
                 <div id="content" class="content">
                     <main>
-                        
+                        <h1 id="docker"><a class="header" href="#docker">Docker</a></h1>
+<h2 id="什么是docker"><a class="header" href="#什么是docker">什么是Docker</a></h2>
+<ul>
+<li>Docker 是一个开放源代码软件，是一个开放平台，用于开发应用、交付（shipping）应用、运行应用。用户可以将打包好的应用保存到一个镜像中，并在任何支持 Docker 的机器上运行。</li>
+<li>Docker 容器与虚拟机类似，但他仅仅将操作系统层虚拟化而非虚拟化硬件，因此容器可以更高效的利用硬件平台。</li>
+<li>通过 Docker，用户可以让他们的应用“一次打包，多地运行”，借助 Docker，我们可以保证部署的应用环境一致，不会由于各种依赖造成问题的出现。</li>
+</ul>
+<blockquote>
+<p>Docker 可以支持环境的分离，比如你仅仅使用某软件而不想让自己的机器内安装乱七八糟的各种依赖，可以使用 Docker。</p>
+</blockquote>
+<blockquote>
+<p>由于 Docker 容器相比虚拟机开销较小，因此你可以在一个硬件平台下运行多个 Docker 容器，而不用过度关心性能问题。</p>
+</blockquote>
+<h2 id="安装-docker"><a class="header" href="#安装-docker">安装 Docker</a></h2>
+<p>针对不同系统的安装，你可以在主页中找到安装方法，由于 Docker 的软件源在国外，你可以选择使用国内源，这里我们推荐清华镜像站。</p>
+<blockquote>
+<p>东北大学镜像站什么时候站起来</p>
+</blockquote>
+<p>在本讲义编写期间，发现国内的 dockerhub 镜像站大多无法使用，相对可用的是阿里云提供的容器镜像服务，有关容器镜像服务的内容，可以进入<code>阿里云-&gt;容器镜像服务-&gt;镜像工具-&gt;镜像加速器</code>进行查询。</p>
+<blockquote>
+<p>dockerhub，是 docker镜像 所使用的镜像源站点。</p>
+</blockquote>
+<p>安装结束，先爽一把吧！</p>
+<pre><code class="language-bash">docker pull hello-world
+docker run hello-worlk
+</code></pre>
+<blockquote>
+<p>你的电脑可能会显示<code>Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</code>，这是 docker 服务还未在进程中启动所导致，现在你可以在搜索引擎中尝试找到解决方案，记得关键字中加入你的具体操作系统。</p>
+</blockquote>
+<h2 id="上手-docker"><a class="header" href="#上手-docker">上手 Docker</a></h2>
+<p>让我们来看执行刚才的两条命令发生了什么：</p>
+<p>首先是<code>docker pull</code>，他会从镜像仓库中拉去相应镜像到本地，而通过<code>docker run</code>则可以创建新的容器（从镜像中）并运行，因此两条指令完成的操作就是<strong>从镜像站拉取镜像并以容器运行</strong></p>
+<h3 id="仓库"><a class="header" href="#仓库">仓库</a></h3>
+<p>仓库中提供了各种各样的镜像，包括一些用户打包的镜像，每一次运行<code>docker pull</code>会先检查本地仓库是否有这个镜像，没有则会去镜像仓库拉取。</p>
+<h3 id="容器与镜像"><a class="header" href="#容器与镜像">容器与镜像</a></h3>
+<p>容器与镜像是在 docker 中最常见的两个概念</p>
+<ul>
+<li>
+<p>镜像是<strong>只读</strong>的文件，是一个应用程序的“打包”，提供了程序所要运行的环境。</p>
+</li>
+<li>
+<p>容器是镜像的实例，由 docker 进行创建并彼此隔离，是一个真正的<strong>运行环境</strong></p>
+</li>
+<li>
+<p>可以通过一个镜像创建出多个容器，容器间彼此隔离，互不影响</p>
+</li>
+</ul>
+<h3 id="导出与导入"><a class="header" href="#导出与导入">导出与导入</a></h3>
+<p>docker 的强大之处在于你可以将通过镜像创建的容器再次打包为镜像（或容器）并分发到其他设备上，这使得你可以实现<strong>一次创建，多次部署</strong>。</p>
+<p>docker 为每个容器（镜像）都提供了一个唯一的 id 号，当你想要使用某个容器（镜像）时，可以通过 id 号确认。</p>
+<pre><code class="language-bash">#列出当前镜像
+docker images
+#列出当前全部容器
+docker container list
+</code></pre>
+<blockquote>
+<p>需要注意当你退出一个容器时，容器并没有直接删除，而是停止，你可以重新进入容器继续使用，也可以通过<code>docker rm 'id'</code>删除某个容器。</p>
+</blockquote>
+<p>导出某个容器有两种方式，<code>docker save</code> 和 <code>docker export</code></p>
+<blockquote>
+<p><code>docker save</code>保存的是镜像（image），而<code>docker export</code>保存的是容器（container）</p>
+</blockquote>
+<p>相应的，导入也有两个方式，<code>docker load</code> 和 <code>docker import</code></p>
+<blockquote>
+<p><code>docker load</code>加载的是镜像，而<code>docker import</code>加载的是容器，但请注意，实际上<code>docker import</code>是<strong>将容器导出为一个新的镜像</strong></p>
+</blockquote>
+<h2 id="参考资料"><a class="header" href="#参考资料">参考资料</a></h2>
+<p><a href="https://www.runoob.com/docker/docker-tutorial.html">菜鸟教程</a> </p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
