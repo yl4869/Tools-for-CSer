@@ -417,7 +417,222 @@ git status
 <p>为了体现提交信息，我又将t文件加入到暂存区中进行了第二次提交，这样使用<code>git log</code>可以查看版本库的提交信息。
 <img src="image/6.png" alt="6" /> 
 这样什么人什么时间进行了提交就一目了然了，你也可以通过每次提交的哈希值回退到任何一个提交版本。</p>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="持续集成部署"><a class="header" href="#持续集成部署">持续集成&amp;部署</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="元编程"><a class="header" href="#元编程">元编程</a></h1>
+<p>维基百科释义：<a href="https://en.wikipedia.org/wiki/Metaprogramming">https://en.wikipedia.org/wiki/Metaprogramming</a></p>
+<h1 id="makefile"><a class="header" href="#makefile">Makefile</a></h1>
+<p>参考：</p>
+<ul>
+<li>Learn Makefiles: <a href="https://makefiletutorial.com/#makefile-syntax">https://makefiletutorial.com/#makefile-syntax</a></li>
+</ul>
+<p>TODO： 手把手写出模板文件的教程</p>
+<h2 id="最简单的模板"><a class="header" href="#最简单的模板">最简单的模板</a></h2>
+<p>这里假设正在编译某个 C++ OpenGL 项目。其文件树如下：</p>
+<pre><code>.
+├── include
+│   └── Utils.h
+├── Makefile
+├── src
+│   ├── main.cpp
+│   └── Utils.cpp
+├── fragShader.glsl
+└── vertShader.glsl
+</code></pre>
+<p>如你所见，该文件内的头文件都在 <code>./include</code> 中，源文件都在 <code>./src</code> 中。可以编译其的 Makefile 内容如下：</p>
+<pre><code class="language-makefile">SRCDIR  = ./src
+SRC 	= $(shell find $(SRCDIR) -name *.cpp)
+OBJS	= $(patsubst $(SRCDIR)/%.cpp, %.o, $(SRC))
+EXE		= main
+
+CXX  	= $(shell ls /bin | grep g++ | grep x86_64 | grep linux)
+CXXFLAGS= -Wall -O2
+LDFLAGS = -lGL -lglfw -lGLEW -lsoil2
+
+all: $(EXE)
+
+$(EXE): $(OBJS)
+	$(CXX) $^ $(LDFLAGS) $(CXXFLAGS) -o $(EXE)
+
+$(OBJS): %.o: $(SRCDIR)/%.cpp
+	$(CXX) $(LDFLAGS) $(CXXFLAGS) $^ -c
+
+clean:
+	rm $(OBJS) $(EXE)
+</code></pre>
+<p>接下来逐一说明。</p>
+<h3 id="命名惯例"><a class="header" href="#命名惯例">命名惯例</a></h3>
+<p>首先，是 Makefile 内的一些命名惯例：</p>
+<ul>
+<li><code>CC</code>: C 语言编译器</li>
+<li><code>CXX</code>: C++ 编译器</li>
+<li><code>CFLAGS</code>: 给 C 语言编译器的 flag 参数</li>
+<li><code>CXXFLAGS</code>: 给 C++ 编译器的 flag 参数</li>
+<li><code>CPPFLAGS</code>: 给预处理器的 flag 参数</li>
+<li><code>LDFLAGS</code>: 传递给链接器，链接一些指定的库</li>
+</ul>
+<p>其次是以上模板的命名含义，这些含义是按照大部分惯例命名的：</p>
+<ul>
+<li><code>SRCDIR</code>: 源文件的文件夹</li>
+<li><code>SRC</code>: 源文件</li>
+<li><code>OBJS</code>: 目标文件</li>
+<li><code>EXE</code>: 可执行文件</li>
+</ul>
+<p>当需要区分 <code>C</code> 还是其他语言的源文件的时候，可以添加诸如 <code>C</code>，<code>CXX</code>，<code>PY</code> 等前缀。</p>
+<p>变量命名实际上可以随自己想法任意命名，不过也有命名惯例可以通过这里了解：<a href="https://www.gnu.org/software/make/manual/html_node/Makefile-Conventions.html">Makefile-Conventions</a></p>
+<h3 id="makefile-语法"><a class="header" href="#makefile-语法">Makefile 语法</a></h3>
+<p>一个 Makefile 包含许多规则。每一个规则是如下格式：</p>
+<pre><code class="language-makefile">targets: prerequisites
+	command
+	command
+	command
+</code></pre>
+<ul>
+<li>targets: 目标</li>
+<li>prerequisites: 依赖</li>
+<li>command: 指令</li>
+</ul>
+<p>说明：</p>
+<ul>
+<li>目标可以是一个或多个文件名，也可以是非文件目标；</li>
+<li>依赖是一个或多个文件名，该文件可以与目标有关，也可以与目标无关；</li>
+<li>指令都是使用当前 shell 在当前文件夹内执行的。</li>
+<li>每个目标只有在依赖存在时候，才会执行接下来的 command，其中对对依赖的查找是从 Makefile 所处位置开始的。</li>
+</ul>
+<blockquote>
+<p>注意，Makefile 的缩进是需要的，同时需要硬制表符而不是四个空格这样的经过转换的制表符。如果有 <code>Makefile:2: *** missing separator.  Stop.</code> 这样的报错大多是制表符问题。</p>
+</blockquote>
+<p>标准目标都在 <a href="https://www.gnu.org/software/make/manual/html_node/Makefile-Conventions.html">Makefile-Conventions</a> 里有说明。</p>
+<p>常见的是 <code>all</code>、<code>install</code>、<code>clean</code> 等。其中，<code>all</code> 是默认目标。</p>
+<p>当在 Makefile 存在的目录下，执行 <code>make</code> 的时候，<code>make</code> 会在当前文件夹下查找 <code>Makefile</code>，如果找不到就会寻找 <code>makefile</code>。实际上会最先寻找 <code>GNUmakefile</code>，但是该名称并不被推荐，除非特别指定是一个 <code>GNU</code> 的 <code>make</code>。如果以上都找不到则会报错。</p>
+<p>但是，也可以通过 <code>-f name</code> 或 <code>--file=name</code> 的方式指定 Makefile 的名称。</p>
+<p>当找到 Makefile 以后，便会开始执行 <code>all</code> 目标，它会先检查是否存在，如果依赖都存在那么直接执行接下来的指令。否则它会寻找是否有以该依赖作为目标的规则，找到后会先执行该规则然后再执行 <code>all</code> 目标。其他目标也有一样的逻辑。</p>
+<p>如果想指定某个目标，可以用 <code>make target-name</code> 的格式，譬如 <code>make clean</code> 的方式执行 <code>clean</code> 目标。如果没指定目标就会如上述所说的默认执行 <code>all</code>。</p>
+<h3 id="定义变量"><a class="header" href="#定义变量">定义变量</a></h3>
+<p>该模板 Makefile 开头定义了一些变量，含义如上所述。</p>
+<p>Makefile 赋值语句将等号左侧看作变量，右侧看作字符串。字符串从等号后立刻开始，一直到遇到表示注释的 <code>#</code> 或者换行。</p>
+<pre><code class="language-makefile">a = abc     # 保存字符串 &quot; abc     &quot;
+b = 'abc'   # 保存字符串 &quot; 'abc'   &quot;
+c = &quot;abc&quot;   # 保存字符串 &quot; \&quot;abc\&quot;   &quot;
+</code></pre>
+<blockquote>
+<p>注意，以上列出的变量保存的值是有空格的</p>
+</blockquote>
+<p>Makefile 的变量存储的都是字符串。</p>
+<p>同时，它在处理字符串的时候，会将以空格分割的字符串当作字符串数组。输出内容的时候则是输出整体。</p>
+<h3 id="获取变量内容"><a class="header" href="#获取变量内容">获取变量内容</a></h3>
+<p>获取变量中的值作为字符串，可以使用 <code>$(variable)</code> 的格式。</p>
+<pre><code class="language-makefile">a =abc
+b ='abc'
+c =&quot;abc&quot;
+
+all:
+	echo a $(a) $(b) $(c)
+</code></pre>
+<p>如果要执行 Makefile 的内容，只需要在包含 Makefile 的文件夹内执行 <code>make</code> 指令，就可以执行 <code>all:</code> 开始的指令。如下是输出情况：</p>
+<pre><code class="language-bash">$ make
+echo a abc 'abc' &quot;abc&quot;
+a abc abc abc
+</code></pre>
+<p>可以看出，第一个 <code>a</code> 并没有被展开，而后面的内容因为包裹在 <code>$()</code> 中而被展开。</p>
+<h3 id="设置目标与依赖"><a class="header" href="#设置目标与依赖">设置目标与依赖</a></h3>
+<pre><code class="language-makefile">all: something
+    echo &quot;Oh, you get all!&quot;
+
+something:
+    echo &quot;You need something.&quot;
+    touch something
+</code></pre>
+<p>执行 <code>make</code> 后便会有如下输出：</p>
+<pre><code class="language-bash">$ make
+echo &quot;You need something.&quot;
+You need something.
+touch something
+echo &quot;Oh, you get all!&quot;
+Oh, you get all!
+</code></pre>
+<h3 id="执行-shell-命令并获取输出"><a class="header" href="#执行-shell-命令并获取输出">执行 shell 命令并获取输出</a></h3>
+<p>会因为 shell 不同有多种方法，譬如在 bash 中，可以用左上角的引号符号（？）额外执行指令获得输出。比如：</p>
+<pre><code class="language-bash">$ ls `echo '.'`
+</code></pre>
+<p>以上指令会先执行特殊的引号的内容获得结果然后再执行 <code>ls</code> 获取当前文件夹下的信息。</p>
+<p>所以我们可以做如下变量</p>
+<pre><code class="language-makefile">inner-command =`ls | grep .*\.cpp`
+</code></pre>
+<p>然后该变量就可以作为一个句中 shell 指令执行。</p>
+<p>不过，以上方法依赖于特定的 shell。bash 是以上的操作，fish 就可能不是这样的语法了。同时，该方法获得的输出无法处理，只能是原始内容，这对后续处理是非常不方便的。</p>
+<p>在 Makefile 内有一个比较通用的方法执行 shell 命令，并获取输出保存到变量中。如下面的例子：</p>
+<pre><code class="language-makefile">CXX = $(shell ls | grep .*\.cpp)
+</code></pre>
+<p>看起来和 <code>lisp</code> 很相似，它的语法格式是 <code>$(command args)</code> 获得的输出可以立即当作 <code>args</code> 使用也可以保存到变量里等待接下来继续处理。</p>
+<p>而执行 shell 命令就是做如下替换</p>
+<ul>
+<li>command: shell</li>
+<li>args: shell 要执行的命令</li>
+</ul>
+<p>光就如上命令有等价的另一种写法：</p>
+<pre><code class="language-makefile">CXX = $(wildcard *.cpp)
+</code></pre>
+<p>不过</p>
+<pre><code class="language-makefile">CXX = *.cpp
+</code></pre>
+<p>只会保存字符串 <code> *.cpp</code> 而不会用通配符搜索。</p>
+<p>更多额外的指令可以查询：<a href="https://www.gnu.org/software/make/manual/html_node/Quick-Reference.html">Quick-Reference</a></p>
+<p>比如 <code>$</code> + <code>^</code>，<code>%</code> 类似这样内容的用法也都在上述链接中可以找到。建议慢慢熟悉，到需要用的时候查找。</p>
+<h3 id="回到最初的模板"><a class="header" href="#回到最初的模板">回到最初的模板</a></h3>
+<p>Makefile 模板，接下来就可以很好的描述 Makefile 模板的含义：</p>
+<ol>
+<li>定义源代码文件夹变量 <code>SRCDIR</code> 为 <code> ./src</code></li>
+<li>之后在展开源代码文件夹变量后，就是从源代码文件夹中搜索名称以 <code>.cpp</code> 结尾的文件，因为是从 Makefile 位置开始搜索，所以会保留 <code>./src</code> 的前缀。将该结果保存到 <code>SRC</code> 中。</li>
+<li>接下来使用 <code>patsubs</code> 操作，对一空格分割的字符串数组中的每一项，获得源文件去除文件路径前缀和拓展名的基础名，将其加上 <code>.o</code> 后缀，作为目标文件的文件名。</li>
+<li>定义输出的可执行文件名是 <code>main</code></li>
+<li>在 <code>/bin</code> 中查找一个 <code>g++</code>，该 <code>g++</code> 是 <code>x86_64</code> 的且在 <code>linux</code> 平台下。将其作为编译器。而实际上，正常的应该只需要 <code>g++</code> 即可，不需要做这么多细分。</li>
+<li>设置 C++ 编译 flag 为 <code>-Wall</code> 和 <code>-O2</code>。</li>
+<li>设置链接 flag 为 <code>-lGL</code> <code>-lglfw</code> <code>-lGLEW</code> <code>-lsoil2</code> 用于链接需要的库。</li>
+<li><code>all</code> 目标依赖 <code>main</code>，且没有其他操作。</li>
+<li><code>main</code> 依赖目标文件，如果满足以后，则会用依赖替换 <code>$^</code> 的位置。展开其他内容后执行指令。</li>
+<li><code>$(OBJS)</code> 内以空格分割为字符串数组，且每个模式是 <code>%.o</code> 形式，此时 <code>%</code> 指代对应的目标文件的基本名称，需要来自 <code>SRCDIR</code> 的对应的 <code>%.cpp</code> 文件。如果满足，则会用 <code>$(SRCDIR)/%.cpp</code> 替换 <code>$^</code> 然后执行指令编译。</li>
+<li><code>clean</code> 目标删除当前文件夹下的指定目标文件和可执行文件。</li>
+</ol>
+<blockquote>
+<p>可能会好奇为什么要获取源文件的基本名称并转换为目标文件的名称，而不是直接使用带路径的名称。原因是 g++ 默认生成目标文件放在执行指令的文件夹下。所以如果带了路径，可能会进入到源文件所在的文件夹内去寻找目标文件。</p>
+</blockquote>
+<p>不过这只是一个起步的文件，在 GNU 的 reference 里还有很多的指令没能在这个简单的 Makefile 中展示出来。</p>
+<h1 id="cmake"><a class="header" href="#cmake">CMake</a></h1>
+<p>参考：</p>
+<ul>
+<li>Modern CMake for C++ Discover a better approach to building, testing and packaging your software (Rafał Świdziński)</li>
+</ul>
+<blockquote>
+<p>很多未接触 <code>cmake</code> 的都会望而却步，然而，就算是接触的人实际上也不愿意折腾 <code>cmake</code>。</p>
+</blockquote>
+<p>TODO: cmake 简易教程</p>
+<p>接下来给出通用模板：</p>
+<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.20)
+
+project(glt)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+include_directories(/usr/include/opencv4)
+
+file(GLOB CSRC ./*.cpp)
+
+link_libraries(GL glfw GLEW soil2)
+
+add_executable(glt ${CSRC})
+</code></pre>
+<p>说明：</p>
+<ul>
+<li><code>cmake_minimum_required(VERSION 3.20)</code>: 设置 cmake 需要满足的最小版本，这里设置为 <code>3.20</code>；</li>
+<li><code>project(glt)</code>: 设置项目名称，这里设置为 <code>glt</code></li>
+<li><code>set(CMAKE_CXX_STANDARD 20)</code>: 设置项目的 <code>C++</code> 版本，这里设置为 <code>20</code>。实际上，不设置是可以用默认版本的。只是在使用 <code>vscode</code>: 等工具开发的时候，可能就会在使用 <code>C++ 20</code> 标准开发时候报错。所以如果想用指定版本 <code>C++</code> 配合编辑器开发，推荐设置。</li>
+<li><code>set(CMAKE_CXX_STANDARD_REQUIRED True)</code>: 是否需要满足 <code>C++</code> 版本需求。这里设置为 <code>True</code>。</li>
+<li><code>include_directories(/usr/include/opencv4)</code>: 额外包含头文件的文件夹位置。一些头文件文件夹位置可能不能通过默认路径找到，故需要自己指定。该函数相当于使用 <code>-I</code> 指定头文件路径。这里设置了 <code>/usr/include/opencv4</code>，包含 <code>opencv4</code> 头文件文件夹。这里因为使用了绝对路径，所以可移植性很差，推荐使用 cmake 的查找找到包，不过这就需要一定的 <code>cmake</code> 脚本编写能力。</li>
+<li><code>file(GLOB CSRC ./*.cpp)</code>: 获取文件名满足第三个参数的文件，并将文件以字符串形式保存到 <code>CSRC</code> 变量中，其中 <code>GLOB</code> 获取方式无法将 <code>CSRC</code> 内容继承到子文件夹里的 CMakeLists.txt 中。</li>
+<li><code>link_libraries(GL glfw GLEW soil2)</code>: 连接额外库，将库名或者绝对路径放入即可。这里指定了四个 lib。</li>
+<li><code>add_executable(glt ${CSRC})</code>: 设定可执行文件名称为 <code>glt</code>，源文件是 <code>CSRC</code> 变量中的内容对应的文件。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="持续集成部署"><a class="header" href="#持续集成部署">持续集成&amp;部署</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="markdown"><a class="header" href="#markdown">Markdown</a></h1>
 <p>你的学习和工作生涯中必不可免需要编写文档，同样也有一部分人喜欢记录笔记或博客。当使用纯文本时，往往会觉得功能太少,，缺少层次，难以标注重点。但当使用 Word 或 LaTex ，又困苦于他们的繁琐复杂。</p>
 <p>现在可以试试 Markdown 了。Markdown 是一种轻量化的标记语言，通过在纯文本格式中添加简单的格式化元素来编写文档，并简单转换为多种格式（常见的为HTML）。</p>
