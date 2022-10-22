@@ -22,7 +22,7 @@ build: src
 	mdbook build
 
 commit:
-	git add src Makefile README.md book.toml
+	git add src Makefile README.md book.toml theme
 	git commit -m "commit on $(shell date) by ${USER}" && \
 	git push origin main
 
