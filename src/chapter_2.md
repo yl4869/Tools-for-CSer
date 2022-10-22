@@ -8,21 +8,26 @@
 > Unix 工具是由 Unix 下的开发人员参照标准进行设计的(现今流行的标准之一 POSIX ), 遵循标准的好处是你基本可以在任何 Unix-like 系统下使用相同的工具而没有使用成本. 同时小而精的软件设计哲学让每个工具只负责一件事, 你可以通过组合各种工具完成整个任务.   
 
 > 你也可以设计自己的命令行工具或设计脚本来完成任务, 想一想, 只是完成一个小任务的话, 又何必花费大力气做 GUI 界面呢?
+
 ## 使用Shell 
 如今的系统大部分都提供了 GUI, 不过他们也都提供了终端模拟来进行 Shell 操作. 你可以参考你的系统找到如何启动终端. 
+
 >请不要使用 cmd 或是 Powershell 这两个异端. 
 
 常见的 Shell 教程在互联网上可以快速检索到, 你可以很容易通过他们掌握Shell的一些基本用法, 因此我们在这里不会过多介绍. 接下来我们将会介绍几个能够提升你Shell使用的功能, 以及一些实用的命令行工具.     
 
 ### 帮助文档
-这里我们介绍三种你能掌握一种命令行工具用法的方式
+这里我们介绍三种你能掌握一种命令行工具用法的方式：  
+
 - man   
 man 命令是官方的权威的手册文档, 是英文 manual 的缩写, 你可以通过 man [参数] 对象的方式查找对象的使用说明文档, 但他一般是十分详细的, 你可能需要仔细阅读才能掌握.  
 
 - -h/--help   
 命令行工具通常也会内置帮助文档, 一般通过 ```命令 -h/--help``` 的方式进行查询, 相比man命令, 他要更简洁和难以掌握.  
+
 - tldr   
 tldr(too long don't read) 简化了繁琐的 man 指令文档, 通过简短明确的示例让你能够快速上手命令行工具, 相比 man 要更亲民一些.      
+
 > tldr本身也是命令行工具, 第一次使用时需要从github上下载数据库, 因此可能会慢一些.   
 
 ### 管道
@@ -31,10 +36,10 @@ tldr(too long don't read) 简化了繁琐的 man 指令文档, 通过简短明�
 >还记得说过的Unix工具只负责一件事吗, 通过管道, 你可以让这些工具结合起来, 共同完成一项任务.  
 
 ### 标准I/O重定向
-标准输入输出是Unix中的重要概念之一, 所有的Unix程序都从标准输出读入, 并将数据写入到标准输出中, 一般的标准输入输出目的都是终端, 你可以通过 Shell 语法对标准输入输出进行重定向, 一般是从定向到文件.   
+标准输入输出是 Unix 中的重要概念之一, 所有的Unix程序都从标准输出读入, 并将数据写入到标准输出中, 一般的标准输入输出目的都是终端, 你可以通过 Shell 语法对标准输入输出进行重定向, 一般是从定向到文件.   
 
-用 **<** 改变标准输出, 使用 ```program < file```可以将 program 程序的输入重定向到file文件中.    
-用 **>** 改变标准输出, 使用 ```program > file```可以将 program 程序的输出重定向到file文件中.    
+用 **<** 改变标准输出, 使用 ```program < file```可以将 program 程序的输入重定向到 file 文件中.    
+用 **>** 改变标准输出, 使用 ```program > file```可以将 program 程序的输出重定向到 file 文件中.    
 
 ```program < file1 > file2``` program 会从 file1 中读取文件, 并将处理好的输出写入到file2中. 
 
@@ -42,11 +47,82 @@ tldr(too long don't read) 简化了繁琐的 man 指令文档, 通过简短明�
 
 ### /dev/null
 /dev/null 是一个垃圾桶, 任何传输到此文件的数据都会被系统丢弃掉, 并返回一个成功完成写入数据的返回值. 他在你想丢弃文件, 或你只想知道命令的退出状态时非常有用.  
+
 > 关于退出状态, 这里以 *grep* 为例, 他在匹配到时返回相应行, 但在匹配失败时会返回1, 通过将 *grep* 的输出重定向到 /dev/null 你可以只关系是否匹配而不关系匹配到的相应行.   
 
+## Shell 工具
+在这里介绍几个常见的 Shell 工具，选择好用的 Shell 工具可以极大提升你的工作效率，避免重复工作。
+
+### 查找文件
+查找是文件或目录是每个人（尤其是程序员）最常见的重复任务之一。在类 Unix 系统中包含一个名为 find 的工具，提供了在 Shell 环境下强大的搜索能力，find 会在指定位置下递归的搜索符合条件的文件：
+
+```bash
+#查找当前目录下的.txt文件
+find . -name "*.txt" -type f 
+#查找当前目录下命名为 test 的目录
+find . -name test -type d 
+#查找当前目录下修改时间5日以内的文件
+find . -mtime -5 -type f
+#查找当前目录下大小在100k到1M内的文件
+find . -size +100k -size -1M -type f
+```
+
+你可能在查找到文件后对查找到的文件进行一些操作（比如删除），find 命令提供了 -exec 解决这个问题。
+
+```bash 
+#查找并删除当前目录下扩展名为 .txt 的文件
+find . -name "*.txt" -exec rm {} \;
+```
+
+虽然 find 功能强大，但他的语法却十分复杂，这个时候你可能需要 fd ，fd 是一种简单又快速和用户友好地 find 替代品，他为需要 find 基本功能但并不需求强大功能的用户提供了一个好的替代方案。
+
+### 查找代码
+另一个常用的功能是搜索代码，你可能需要在文件中查找到某一代码片段是否存在，并找到他们的位置。
+
+大部分类 Unix 系统中都提供了 grep 工具，他是一个强大的文本搜索工具，他会对输入文本进行匹配的深入工具，这里我们只讨论他的简单使用和一些好用的选项，关于如何使用 grep 搭配正则表达式，你可以在学过正则表达式后掌握他。
+
+```bash 
+#在 /etc/passwd 文件下查找匹配 root 的文本
+grep root /etc/passwd
+#搜索多个文件中包含 root 的内容
+grep root 'file1' 'file2'
+#在 /etc/passwd 文件下查找匹配 root 的文本，并输出上下文前后两行
+grep -C 2 root /etc/passwd
+#在/etc/ 目录下递归搜索匹配 root 的文本
+grep root /etc/
+#反查功能：搜索不包含 root 的所有行
+grep -v root /etc/passwd
+#展示满足条件的文本在第几行
+grep -n root /etc/passwd
+#展示有几行满足成功搜索到
+grep -c root /etc/passwd
+```
+
+> grep，fgrep 和 fgrep 常常被称为是文本搜索的三剑客，感兴趣的可以上网查找他们的区别，现代 grep 已经可以解决掉全部的需求了。
+
+和 find 一样，现代也出现了很多替代 grep 的替代品，如 ack，ag 和 rg。
+
+现在，你可以选取一个你喜欢的工具并开始使用它了。
+
+### 更多工具
+因为好用的 shell 工具太多了，我们无法一一列举并教你如何使用（事实上也不应该）。这里列举出一些我在日常使用中觉得有用的工具（ cp，mv等工具太多常用则不在阐述 ）你可以使用 man 或 tldr 查找他们的用法。
+
+#### 远程登陆
+- scp: 在不同 Linux 之间提供传送文件的功能    
+- ping: 确定网络和各外部主机的状态；跟踪和隔离硬件和软件问题；测试、评估和管理网络。  
+- ifconfig: 查看和配置网络设备。  
+
+#### 性能监控和优化命令
+- top: 显示当前系统正在执行的进程的相关信息，包括进程ID、内存占用率、CPU占用率等。  
+- free: 显示系统使用和空闲的内存情况，包括物理内存、交互区内存(swap)和内核缓冲区内存。
+- ps: 用于显示当前进程的状态，类似于 windows 的任务管理器。
+
+> 我经常使用 ps 与 grep 结合（利用管道）来查看某个进程是否在运行中。 
+  
+
 ## reference:  
-鸟哥的Linux私房菜   
+[鸟哥的Linux私房菜](http://cn.linux.vbird.org)    
 Linux命令行和shell脚本编程宝典[Richard Blum]    
-The missing semester of your cs education   
-Shell 脚本学习指南[Arnold Robbins & Nelson H.F. Beebe]
-[Linux 命令行与 Shell 脚本教程(WIP)](https://archlinuxstudio.github.io/ShellTutorial/#/)
+[The missing semester of your cs education](https://missing-semester-cn.github.io)    
+Shell 脚本学习指南[Arnold Robbins & Nelson H.F. Beebe]    
+[Linux 命令行与 Shell 脚本教程(WIP)](https://archlinuxstudio.github.io/ShellTutorial/#/)    
