@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Shell - Tools for CSer</title>
+        <title>Shell - Tools For CSer</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -104,7 +104,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Tools for CSer</h1>
+                    <h1 class="menu-title">Tools For CSer</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -145,11 +145,13 @@
 <p>你也可以设计自己的命令行工具或设计脚本来完成任务, 想一想, 只是完成一个小任务的话, 又何必花费大力气做 GUI 界面呢?</p>
 </blockquote>
 <h2 id="使用shell"><a class="header" href="#使用shell">使用Shell</a></h2>
-<p>如今的系统大部分都提供了 GUI, 不过他们也都提供了终端模拟来进行 Shell 操作. 你可以参考你的系统找到如何启动终端. 
-&gt;请不要使用 cmd 或是 Powershell 这两个异端. </p>
+<p>如今的系统大部分都提供了 GUI, 不过他们也都提供了终端模拟来进行 Shell 操作. 你可以参考你的系统找到如何启动终端. </p>
+<blockquote>
+<p>请不要使用 cmd 或是 Powershell 这两个异端. </p>
+</blockquote>
 <p>常见的 Shell 教程在互联网上可以快速检索到, 你可以很容易通过他们掌握Shell的一些基本用法, 因此我们在这里不会过多介绍. 接下来我们将会介绍几个能够提升你Shell使用的功能, 以及一些实用的命令行工具.</p>
 <h3 id="帮助文档"><a class="header" href="#帮助文档">帮助文档</a></h3>
-<p>这里我们介绍三种你能掌握一种命令行工具用法的方式</p>
+<p>这里我们介绍三种你能掌握一种命令行工具用法的方式：</p>
 <ul>
 <li>
 <p>man<br />
@@ -173,9 +175,9 @@ tldr(too long don't read) 简化了繁琐的 man 指令文档, 通过简短明�
 <p>还记得说过的Unix工具只负责一件事吗, 通过管道, 你可以让这些工具结合起来, 共同完成一项任务.</p>
 </blockquote>
 <h3 id="标准io重定向"><a class="header" href="#标准io重定向">标准I/O重定向</a></h3>
-<p>标准输入输出是Unix中的重要概念之一, 所有的Unix程序都从标准输出读入, 并将数据写入到标准输出中, 一般的标准输入输出目的都是终端, 你可以通过 Shell 语法对标准输入输出进行重定向, 一般是从定向到文件.</p>
-<p>用 <strong>&lt;</strong> 改变标准输出, 使用 <code>program &lt; file</code>可以将 program 程序的输入重定向到file文件中.<br />
-用 <strong>&gt;</strong> 改变标准输出, 使用 <code>program &gt; file</code>可以将 program 程序的输出重定向到file文件中.</p>
+<p>标准输入输出是 Unix 中的重要概念之一, 所有的Unix程序都从标准输出读入, 并将数据写入到标准输出中, 一般的标准输入输出目的都是终端, 你可以通过 Shell 语法对标准输入输出进行重定向, 一般是从定向到文件.</p>
+<p>用 <strong>&lt;</strong> 改变标准输出, 使用 <code>program &lt; file</code>可以将 program 程序的输入重定向到 file 文件中.<br />
+用 <strong>&gt;</strong> 改变标准输出, 使用 <code>program &gt; file</code>可以将 program 程序的输出重定向到 file 文件中.</p>
 <p><code>program &lt; file1 &gt; file2</code> program 会从 file1 中读取文件, 并将处理好的输出写入到file2中. </p>
 <blockquote>
 <p>I/O重定向也可以搭配管道一起使用.</p>
@@ -185,11 +187,69 @@ tldr(too long don't read) 简化了繁琐的 man 指令文档, 通过简短明�
 <blockquote>
 <p>关于退出状态, 这里以 <em>grep</em> 为例, 他在匹配到时返回相应行, 但在匹配失败时会返回1, 通过将 <em>grep</em> 的输出重定向到 /dev/null 你可以只关系是否匹配而不关系匹配到的相应行.</p>
 </blockquote>
+<h2 id="shell-工具"><a class="header" href="#shell-工具">Shell 工具</a></h2>
+<p>在这里介绍几个常见的 Shell 工具，选择好用的 Shell 工具可以极大提升你的工作效率，避免重复工作。</p>
+<h3 id="查找文件"><a class="header" href="#查找文件">查找文件</a></h3>
+<p>查找是文件或目录是每个人（尤其是程序员）最常见的重复任务之一。在类 Unix 系统中包含一个名为 find 的工具，提供了在 Shell 环境下强大的搜索能力，find 会在指定位置下递归的搜索符合条件的文件：</p>
+<pre><code class="language-bash">#查找当前目录下的.txt文件
+find . -name &quot;*.txt&quot; -type f 
+#查找当前目录下命名为 test 的目录
+find . -name test -type d 
+#查找当前目录下修改时间5日以内的文件
+find . -mtime -5 -type f
+#查找当前目录下大小在100k到1M内的文件
+find . -size +100k -size -1M -type f
+</code></pre>
+<p>你可能在查找到文件后对查找到的文件进行一些操作（比如删除），find 命令提供了 -exec 解决这个问题。</p>
+<pre><code class="language-bash">#查找并删除当前目录下扩展名为 .txt 的文件
+find . -name &quot;*.txt&quot; -exec rm {} \;
+</code></pre>
+<p>虽然 find 功能强大，但他的语法却十分复杂，这个时候你可能需要 fd ，fd 是一种简单又快速和用户友好地 find 替代品，他为需要 find 基本功能但并不需求强大功能的用户提供了一个好的替代方案。</p>
+<h3 id="查找代码"><a class="header" href="#查找代码">查找代码</a></h3>
+<p>另一个常用的功能是搜索代码，你可能需要在文件中查找到某一代码片段是否存在，并找到他们的位置。</p>
+<p>大部分类 Unix 系统中都提供了 grep 工具，他是一个强大的文本搜索工具，他会对输入文本进行匹配的深入工具，这里我们只讨论他的简单使用和一些好用的选项，关于如何使用 grep 搭配正则表达式，你可以在学过正则表达式后掌握他。</p>
+<pre><code class="language-bash">#在 /etc/passwd 文件下查找匹配 root 的文本
+grep root /etc/passwd
+#搜索多个文件中包含 root 的内容
+grep root 'file1' 'file2'
+#在 /etc/passwd 文件下查找匹配 root 的文本，并输出上下文前后两行
+grep -C 2 root /etc/passwd
+#在/etc/ 目录下递归搜索匹配 root 的文本
+grep root /etc/
+#反查功能：搜索不包含 root 的所有行
+grep -v root /etc/passwd
+#展示满足条件的文本在第几行
+grep -n root /etc/passwd
+#展示有几行满足成功搜索到
+grep -c root /etc/passwd
+</code></pre>
+<blockquote>
+<p>grep，fgrep 和 fgrep 常常被称为是文本搜索的三剑客，感兴趣的可以上网查找他们的区别，现代 grep 已经可以解决掉全部的需求了。</p>
+</blockquote>
+<p>和 find 一样，现代也出现了很多替代 grep 的替代品，如 ack，ag 和 rg。</p>
+<p>现在，你可以选取一个你喜欢的工具并开始使用它了。</p>
+<h3 id="更多工具"><a class="header" href="#更多工具">更多工具</a></h3>
+<p>因为好用的 shell 工具太多了，我们无法一一列举并教你如何使用（事实上也不应该）。这里列举出一些我在日常使用中觉得有用的工具（ cp，mv等工具太多常用则不在阐述 ）你可以使用 man 或 tldr 查找他们的用法。</p>
+<h4 id="远程登陆"><a class="header" href="#远程登陆">远程登陆</a></h4>
+<ul>
+<li>scp: 在不同 Linux 之间提供传送文件的功能</li>
+<li>ping: 确定网络和各外部主机的状态；跟踪和隔离硬件和软件问题；测试、评估和管理网络。</li>
+<li>ifconfig: 查看和配置网络设备。</li>
+</ul>
+<h4 id="性能监控和优化命令"><a class="header" href="#性能监控和优化命令">性能监控和优化命令</a></h4>
+<ul>
+<li>top: 显示当前系统正在执行的进程的相关信息，包括进程ID、内存占用率、CPU占用率等。</li>
+<li>free: 显示系统使用和空闲的内存情况，包括物理内存、交互区内存(swap)和内核缓冲区内存。</li>
+<li>ps: 用于显示当前进程的状态，类似于 windows 的任务管理器。</li>
+</ul>
+<blockquote>
+<p>我经常使用 ps 与 grep 结合（利用管道）来查看某个进程是否在运行中。 </p>
+</blockquote>
 <h2 id="reference"><a class="header" href="#reference">reference:</a></h2>
-<p>鸟哥的Linux私房菜<br />
+<p><a href="http://cn.linux.vbird.org">鸟哥的Linux私房菜</a><br />
 Linux命令行和shell脚本编程宝典[Richard Blum]<br />
-The missing semester of your cs education<br />
-Shell 脚本学习指南[Arnold Robbins &amp; Nelson H.F. Beebe]
+<a href="https://missing-semester-cn.github.io">The missing semester of your cs education</a><br />
+Shell 脚本学习指南[Arnold Robbins &amp; Nelson H.F. Beebe]<br />
 <a href="https://archlinuxstudio.github.io/ShellTutorial/#/">Linux 命令行与 Shell 脚本教程(WIP)</a></p>
 
                     </main>
