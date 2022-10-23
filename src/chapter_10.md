@@ -21,7 +21,7 @@
 
 ```bash
 docker pull hello-world
-docker run hello-worlk
+docker run hello-world
 ```
 
 > 你的电脑可能会显示`Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`，这是 docker 服务还未在进程中启动所导致，现在你可以在搜索引擎中尝试找到解决方案，记得关键字中加入你的具体操作系统。
@@ -29,7 +29,7 @@ docker run hello-worlk
 ## 上手 Docker
 让我们来看执行刚才的两条命令发生了什么：
 
-首先是`docker pull`，他会从镜像仓库中拉去相应镜像到本地，而通过`docker run`则可以创建新的容器（从镜像中）并运行，因此两条指令完成的操作就是**从镜像站拉取镜像并以容器运行**
+首先是`docker pull`，他会从镜像仓库中拉取相应镜像到本地，而通过`docker run`则可以创建新的容器（从镜像中）并运行，因此两条指令完成的操作就是**从镜像站拉取镜像并以容器运行**
 
 ### 仓库
 仓库中提供了各种各样的镜像，包括一些用户打包的镜像，每一次运行`docker pull`会先检查本地仓库是否有这个镜像，没有则会去镜像仓库拉取。
