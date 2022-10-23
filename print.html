@@ -174,9 +174,6 @@ macOS解决，你也会发现提供给Linux的命令行工具多数也都会提�
 </blockquote>
 <h2 id="使用shell"><a class="header" href="#使用shell">使用Shell</a></h2>
 <p>如今的系统大部分都提供了 GUI, 不过他们也都提供了终端模拟来进行 Shell 操作. 你可以参考你的系统找到如何启动终端. </p>
-<blockquote>
-<p>请不要使用 cmd 或是 Powershell 这两个异端. </p>
-</blockquote>
 <p>常见的 Shell 教程在互联网上可以快速检索到, 你可以很容易通过他们掌握Shell的一些基本用法, 因此我们在这里不会过多介绍. 接下来我们将会介绍几个能够提升你Shell使用的功能, 以及一些实用的命令行工具.</p>
 <h3 id="帮助文档"><a class="header" href="#帮助文档">帮助文档</a></h3>
 <p>这里我们介绍三种你能掌握一种命令行工具用法的方式：</p>
@@ -252,7 +249,7 @@ grep -n root /etc/passwd
 grep -c root /etc/passwd
 </code></pre>
 <blockquote>
-<p>grep，fgrep 和 fgrep 常常被称为是文本搜索的三剑客，感兴趣的可以上网查找他们的区别，现代 grep 已经可以解决掉全部的需求了。</p>
+<p>grep，egrep 和 fgrep 常常被称为是文本搜索的三剑客，感兴趣的可以上网查找他们的区别，现代 grep 已经可以解决掉全部的需求了。</p>
 </blockquote>
 <p>和 find 一样，现代也出现了很多替代 grep 的替代品，如 ack，ag 和 rg。</p>
 <p>现在，你可以选取一个你喜欢的工具并开始使用它了。</p>
@@ -557,10 +554,10 @@ echo &quot;Oh, you get all!&quot;
 Oh, you get all!
 </code></pre>
 <h3 id="执行-shell-命令并获取输出"><a class="header" href="#执行-shell-命令并获取输出">执行 shell 命令并获取输出</a></h3>
-<p>会因为 shell 不同有多种方法，譬如在 bash 中，可以用左上角的引号符号（？）额外执行指令获得输出。比如：</p>
+<p>会因为 shell 不同有多种方法，譬如在 bash 中，可以用反引号额外执行指令获得输出。比如：</p>
 <pre><code class="language-bash">$ ls `echo '.'`
 </code></pre>
-<p>以上指令会先执行特殊的引号的内容获得结果然后再执行 <code>ls</code> 获取当前文件夹下的信息。</p>
+<p>以上指令会先执行反引号的内容获得结果然后再执行 <code>ls</code> 获取当前文件夹下的信息。</p>
 <p>所以我们可以做如下变量</p>
 <pre><code class="language-makefile">inner-command =`ls | grep .*\.cpp`
 </code></pre>
@@ -663,14 +660,14 @@ add_executable(glt ${CSRC})
 </blockquote>
 <p>安装结束，先爽一把吧！</p>
 <pre><code class="language-bash">docker pull hello-world
-docker run hello-worlk
+docker run hello-world
 </code></pre>
 <blockquote>
 <p>你的电脑可能会显示<code>Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</code>，这是 docker 服务还未在进程中启动所导致，现在你可以在搜索引擎中尝试找到解决方案，记得关键字中加入你的具体操作系统。</p>
 </blockquote>
 <h2 id="上手-docker"><a class="header" href="#上手-docker">上手 Docker</a></h2>
 <p>让我们来看执行刚才的两条命令发生了什么：</p>
-<p>首先是<code>docker pull</code>，他会从镜像仓库中拉去相应镜像到本地，而通过<code>docker run</code>则可以创建新的容器（从镜像中）并运行，因此两条指令完成的操作就是<strong>从镜像站拉取镜像并以容器运行</strong></p>
+<p>首先是<code>docker pull</code>，他会从镜像仓库中拉取相应镜像到本地，而通过<code>docker run</code>则可以创建新的容器（从镜像中）并运行，因此两条指令完成的操作就是<strong>从镜像站拉取镜像并以容器运行</strong></p>
 <h3 id="仓库"><a class="header" href="#仓库">仓库</a></h3>
 <p>仓库中提供了各种各样的镜像，包括一些用户打包的镜像，每一次运行<code>docker pull</code>会先检查本地仓库是否有这个镜像，没有则会去镜像仓库拉取。</p>
 <h3 id="容器与镜像"><a class="header" href="#容器与镜像">容器与镜像</a></h3>

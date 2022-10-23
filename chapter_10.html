@@ -158,14 +158,14 @@
 </blockquote>
 <p>安装结束，先爽一把吧！</p>
 <pre><code class="language-bash">docker pull hello-world
-docker run hello-worlk
+docker run hello-world
 </code></pre>
 <blockquote>
 <p>你的电脑可能会显示<code>Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</code>，这是 docker 服务还未在进程中启动所导致，现在你可以在搜索引擎中尝试找到解决方案，记得关键字中加入你的具体操作系统。</p>
 </blockquote>
 <h2 id="上手-docker"><a class="header" href="#上手-docker">上手 Docker</a></h2>
 <p>让我们来看执行刚才的两条命令发生了什么：</p>
-<p>首先是<code>docker pull</code>，他会从镜像仓库中拉去相应镜像到本地，而通过<code>docker run</code>则可以创建新的容器（从镜像中）并运行，因此两条指令完成的操作就是<strong>从镜像站拉取镜像并以容器运行</strong></p>
+<p>首先是<code>docker pull</code>，他会从镜像仓库中拉取相应镜像到本地，而通过<code>docker run</code>则可以创建新的容器（从镜像中）并运行，因此两条指令完成的操作就是<strong>从镜像站拉取镜像并以容器运行</strong></p>
 <h3 id="仓库"><a class="header" href="#仓库">仓库</a></h3>
 <p>仓库中提供了各种各样的镜像，包括一些用户打包的镜像，每一次运行<code>docker pull</code>会先检查本地仓库是否有这个镜像，没有则会去镜像仓库拉取。</p>
 <h3 id="容器与镜像"><a class="header" href="#容器与镜像">容器与镜像</a></h3>

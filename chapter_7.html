@@ -267,10 +267,10 @@ echo &quot;Oh, you get all!&quot;
 Oh, you get all!
 </code></pre>
 <h3 id="执行-shell-命令并获取输出"><a class="header" href="#执行-shell-命令并获取输出">执行 shell 命令并获取输出</a></h3>
-<p>会因为 shell 不同有多种方法，譬如在 bash 中，可以用左上角的引号符号（？）额外执行指令获得输出。比如：</p>
+<p>会因为 shell 不同有多种方法，譬如在 bash 中，可以用反引号额外执行指令获得输出。比如：</p>
 <pre><code class="language-bash">$ ls `echo '.'`
 </code></pre>
-<p>以上指令会先执行特殊的引号的内容获得结果然后再执行 <code>ls</code> 获取当前文件夹下的信息。</p>
+<p>以上指令会先执行反引号的内容获得结果然后再执行 <code>ls</code> 获取当前文件夹下的信息。</p>
 <p>所以我们可以做如下变量</p>
 <pre><code class="language-makefile">inner-command =`ls | grep .*\.cpp`
 </code></pre>
