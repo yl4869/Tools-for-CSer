@@ -110,3 +110,7 @@ git commit -m "first commit"
 为了体现提交信息，我又将t文件加入到暂存区中进行了第二次提交，这样使用```git log```可以查看版本库的提交信息。
 ![6](image/6.png) 
 这样什么人什么时间进行了提交就一目了然了，你也可以通过每次提交的哈希值回退到任何一个提交版本。
+
+
+### pratice
+- 需要更多的了解 git 的工作方式和使用，可以阅读[Pro Git](https://git-scm.com/book/en/v2)，也可以通过可视化的练习更多了解不同的分支和分支间的切换[Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN)  
