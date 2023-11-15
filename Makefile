@@ -26,3 +26,6 @@ commit:
 	git commit -m "commit on $(shell date) by ${USER}" && \
 	git push origin main
 
+run:
+	make build && make commit && make deploy
+
