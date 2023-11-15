@@ -26,7 +26,7 @@ Markdown 本质是将人们编写文本时常用的习惯标准化，使得可�
 ## 其他资源
 
 [Markdown 教程](https://markdown.com.cn) 好用的中文教程，但其实并非官方       
-[Markdown Reference](https://commonmark.org/) 一种标准规范的 Markdown 语法教程
+[Markdown Reference](https://commonmark.org/) 一种标准规范的 Markdown 语法教程    
 [Markdown Tutorial](https://www.markdowntutorial.com/zh-cn/) 一个开源网站，使用他在浏览器中尝试 Markdown    
 [typora](https://typora.io) 广受欢迎的所见即所得的 Markdown 编辑器，稳定版收费，测试版可以免费使用      
 [vscode](https://code.visualstudio.com) 没错这玩意写啥都很舒服      
